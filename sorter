@@ -1,0 +1,46 @@
+#include <iostream>
+
+void quicksort(int data[], int low, int high)
+{
+	if(low > high) return;
+	size_t head = low;
+	size_t tail = high;
+	size_t mid = head + ((tail - head) >> 1);
+	//std::cout << data[mid] << std::endl;
+	if(mid != head){
+		int temp = data[mid];
+		data[mid] = data[head];
+		data[head] = temp;
+	}
+	int key = data[head];
+	while(head < tail){
+		while(head < tail && data[tail] >= key){
+			--tail;
+		}
+		if(head < tail){
+			data[head++] = data[tail];
+		}
+		while(head < tail && data[head] <= key){
+			++head;
+		}
+		if(head < tail){
+			data[tail--] = data[head];
+		}	
+	}
+	//std::cout << head << key << std::endl;
+	data[head] = key;
+	//for(int i = 0; i < 4; i++)
+	//	std::cout << data[i] << " ";
+	//std::cout << std::endl;
+	quicksort(data, low, head-1);
+	quicksort(data, head+1, high);
+}
+
+int main(int argc, char** argv) {
+	int s[10] = {1,2,4,0,5,7,6,3,10,9};
+	quicksort(s,0,9);
+	for(int i = 0; i < 10; i++)
+		std::cout << s[i] << " ";
+	std::cout << std::endl;
+	return 0;
+}
