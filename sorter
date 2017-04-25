@@ -36,11 +36,51 @@ void quicksort(int data[], int low, int high)
 	quicksort(data, head+1, high);
 }
 
+// mergesort
+void merge(int a[], int first, int mid, int last, int tmp[])
+{
+	int i = first, j = mid+1, k = 0;
+	while(i <= mid && j <= last){
+		if(a[i] <= a[j]){
+			tmp[k++] = a[i++];
+		}else{
+			tmp[k++] = a[j++];
+		}
+	}
+	while(i <= mid){
+		tmp[k++] = a[i++]; 
+	}
+	while(j <= last){
+		tmp[k++] = a[j++];
+	}
+	for(i = 0; i < k; i++){
+		a[first+i] = tmp[i];
+	}
+}
+
+void merge_sort(int a[], int first, int last, int tmp[])
+{
+	if(first < last){
+		int mid = (first + last) >> 1;
+		//std::cout << "mid = " << mid << std::endl;
+		merge_sort(a, first, mid, tmp);
+		merge_sort(a, mid+1, last, tmp);
+		merge(a, first, mid, last, tmp);
+	}
+}
+
 int main(int argc, char** argv) {
 	int s[10] = {1,2,4,0,5,7,6,3,10,9};
 	quicksort(s,0,9);
 	for(int i = 0; i < 10; i++)
 		std::cout << s[i] << " ";
 	std::cout << std::endl;
+	
+	int *p = new int[10];
+	merge_sort(s, 0, 9, p);
+	for(int i=0; i<10; i++){
+		std::cout << s[i] << " ";
+	}
+	delete[] p;
 	return 0;
 }
